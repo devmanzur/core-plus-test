@@ -5,6 +5,11 @@ namespace CorePlus.Modules.Appointments.Models;
 
 public class Practitioner : AggregateRoot
 {
+    private Practitioner()
+    {
+        
+    }
+    
     public Practitioner(string name)
     {
         Name = name;

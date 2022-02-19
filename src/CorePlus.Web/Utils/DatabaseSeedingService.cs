@@ -1,3 +1,4 @@
+using System.Text.Json;
 using CorePlus.Modules.Appointments.Models;
 using CorePlus.Modules.Appointments.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -34,12 +35,34 @@ public class DatabaseSeedingService : IHostedService
             context.Practitioners.AddRange(practitioners);
             await context.SaveChangesAsync(cancellationToken);
         }
+
+        var appointmentsExists = await context.Appointments.AnyAsync(cancellationToken);
+        if (!appointmentsExists)
+        {
+            var appointments = GetAppointments();
+            context.Appointments.AddRange(appointments!);
+            await context.SaveChangesAsync(cancellationToken);
+        }
     }
 
     public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
 
     #region Internal functions
-    
+
+    private List<Appointment>? GetAppointments()
+    {
+        var appointmentJson = File.ReadAllText("appointments.json");
+        var appointments = JsonSerializer.Deserialize<List<AppointmentResponse>>(appointmentJson);
+
+        return appointments?
+            .Select(x =>
+                new Appointment(DateTime.Parse(x.date), x.client_name, x.appointment_type, x.duration, x.cost,
+                    x.revenue)
+                {
+                    PractitionerId = x.practitioner_id
+                }).ToList();
+    }
+
     private List<Practitioner> GetPractitioners()
     {
         return new List<Practitioner>()
@@ -58,4 +81,15 @@ public class DatabaseSeedingService : IHostedService
     }
 
     #endregion
+}
+
+internal class AppointmentResponse
+{
+    public string date { get; set; }
+    public string client_name { get; set; }
+    public string appointment_type { get; set; }
+    public int duration { get; set; }
+    public int revenue { get; set; }
+    public int cost { get; set; }
+    public int practitioner_id { get; set; }
 }

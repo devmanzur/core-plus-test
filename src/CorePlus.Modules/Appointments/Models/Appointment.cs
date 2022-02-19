@@ -4,6 +4,11 @@ namespace CorePlus.Modules.Appointments.Models;
 
 public class Appointment : BaseEntity
 {
+    private Appointment()
+    {
+        
+    }
+    
     public Appointment(DateTime date, string clientName, string appointmentType, int duration, double cost,
         double revenue)
     {
@@ -17,7 +22,7 @@ public class Appointment : BaseEntity
     }
 
 
-    public long PractitionerId { get; private set; }
+    public long PractitionerId { get;  set; }
     public Practitioner Practitioner { get; private set; }
     public DateTime Date { get; private set; }
     public string ClientName { get; private set; }
