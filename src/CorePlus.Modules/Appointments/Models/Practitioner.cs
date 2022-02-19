@@ -28,6 +28,7 @@ public class Practitioner : AggregateRoot
         {
             PractitionerUniqueId = this.UniqueId,
             PractitionerName = this.Name,
+            PractitionerId = this.Id,
             AppointmentUniqueId = appointment.UniqueId,
             Cost = appointment.Cost,
             Duration = appointment.Duration,

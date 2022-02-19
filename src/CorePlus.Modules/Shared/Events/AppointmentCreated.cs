@@ -6,6 +6,7 @@ public class AppointmentCreated : IDomainEvent
 {
     public Guid PractitionerUniqueId { get; set; }
     public string PractitionerName { get; set; }
+    public long PractitionerId { get; set; }
     public Guid AppointmentUniqueId { get; set; }
     public string ClientName { get; set; }
     public string AppointmentType { get; set; }

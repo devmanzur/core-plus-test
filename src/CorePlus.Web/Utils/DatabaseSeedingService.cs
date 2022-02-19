@@ -1,7 +1,9 @@
 using System.Text.Json;
 using CorePlus.Modules.Appointments.Models;
 using CorePlus.Modules.Appointments.Persistence;
+using CorePlus.Modules.Reporting.Models;
 using Microsoft.EntityFrameworkCore;
+using Nest;
 
 namespace CorePlus.Web.Utils;
 
@@ -18,15 +20,16 @@ public class DatabaseSeedingService : IHostedService
     {
         using var scope = _serviceProvider.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<AppointmentDbContext>();
+        var elasticClient = scope.ServiceProvider.GetRequiredService<ElasticClient>();
         if (context.Database.IsSqlServer())
         {
             await context.Database.MigrateAsync(cancellationToken);
         }
 
-        await SeedInitialData(context, cancellationToken);
+        await SeedInitialData(context,elasticClient, cancellationToken);
     }
 
-    private async Task SeedInitialData(AppointmentDbContext context, CancellationToken cancellationToken)
+    private async Task SeedInitialData(AppointmentDbContext context, ElasticClient elasticClient,CancellationToken cancellationToken)
     {
         var practitionerExists = await context.Practitioners.AnyAsync(cancellationToken: cancellationToken);
         if (!practitionerExists)
@@ -39,8 +42,28 @@ public class DatabaseSeedingService : IHostedService
         var appointmentsExists = await context.Appointments.AnyAsync(cancellationToken);
         if (!appointmentsExists)
         {
-            var appointments = GetAppointments();
+            var practitioners = ParsePractitioners();
+
+            var appointments = ParseAppointments();
             context.Appointments.AddRange(appointments!);
+
+            var records = appointments.Select(x => new AppointmentRecord()
+            {
+                Cost = x.Cost,
+                Date = x.Date,
+                UniqueId = x.UniqueId,
+                Duration = x.Duration,
+                Revenue = x.Revenue,
+                AppointmentType = x.AppointmentType,
+                ClientName = x.ClientName,
+                Practitioner = new PractitionerRecord()
+                {
+                    Name = practitioners.FirstOrDefault(p=>p.id == x.PractitionerId).name,
+                    Id = x.PractitionerId
+                }
+            });
+
+            await elasticClient.IndexManyAsync(records, $"reports_{DateTime.UtcNow:yyyy.MM.dd}", cancellationToken);
             await context.SaveChangesAsync(cancellationToken);
         }
     }
@@ -49,7 +72,7 @@ public class DatabaseSeedingService : IHostedService
 
     #region Internal functions
 
-    private List<Appointment>? GetAppointments()
+    private List<Appointment>? ParseAppointments()
     {
         var appointmentJson = File.ReadAllText("appointments.json");
         var appointments = JsonSerializer.Deserialize<List<AppointmentResponse>>(appointmentJson);
@@ -63,24 +86,25 @@ public class DatabaseSeedingService : IHostedService
                 }).ToList();
     }
 
-    private List<Practitioner> GetPractitioners()
+    private List<PractitionerResponse>? ParsePractitioners()
     {
-        return new List<Practitioner>()
-        {
-            new Practitioner("Vanda Kirman"),
-            new Practitioner("Zorah Heiss"),
-            new Practitioner("Melodee Harriman"),
-            new Practitioner("Moritz Spinks"),
-            new Practitioner("Teresita Jacqueminot"),
-            new Practitioner("Whitney Epilet"),
-            new Practitioner("Maddalena Cortes"),
-            new Practitioner("Cally Werner"),
-            new Practitioner("Kalil Giannazzi"),
-            new Practitioner("Jacinthe Phippard")
-        };
+        var practitionerJson = File.ReadAllText("practitioners.json");
+        var practitioners = JsonSerializer.Deserialize<List<PractitionerResponse>>(practitionerJson);
+        return practitioners;
+    }
+
+    private List<Practitioner>? GetPractitioners()
+    {
+        return ParsePractitioners()?.Select(x=> new Practitioner(x.name)).ToList();
     }
 
     #endregion
+}
+
+internal class PractitionerResponse
+{
+    public string name { get; set; }
+    public int id { get; set; }
 }
 
 internal class AppointmentResponse

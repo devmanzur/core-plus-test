@@ -4,6 +4,6 @@ namespace CorePlus.Modules.Reporting.Models;
 
 public class PractitionerRecord
 {
-    public Guid UniqueId { get; set; }
+    public long Id { get; set; }
     public string Name { get; set; }
 }
