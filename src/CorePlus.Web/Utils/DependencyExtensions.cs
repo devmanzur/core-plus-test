@@ -33,6 +33,7 @@ public static class DependencyExtensions
     public static IServiceCollection AddAppointmentModule(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped<IAppointmentService, AppointmentService>();
+        services.AddScoped<IPractitionerService, PractitionerService>();
         services.AddScoped<IDomainEventDispatcher, DomainEventDispatcher>();
         services.AddDbContext<AppointmentDbContext>();
         services.AddScoped<IUnitOfWork>(provider => provider.GetService<AppointmentDbContext>()!);

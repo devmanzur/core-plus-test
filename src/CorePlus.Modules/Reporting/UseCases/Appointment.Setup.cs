@@ -1,4 +1,5 @@
-﻿using CorePlus.Modules.Reporting.Models;
+﻿using CorePlus.Modules.Appointments.Interfaces;
+using CorePlus.Modules.Reporting.Models;
 using Nest;
 
 namespace CorePlus.Modules.Reporting.UseCases;
@@ -6,10 +7,13 @@ namespace CorePlus.Modules.Reporting.UseCases;
 public partial class AppointmentReportRepository
 {
     private readonly ElasticClient _elasticClient;
+    private readonly IUnitOfWork _unitOfWork;
+    private const string defaultIndex = "reports*";
 
-    public AppointmentReportRepository(ElasticClient elasticClient)
+    public AppointmentReportRepository(ElasticClient elasticClient,IUnitOfWork unitOfWork)
     {
         _elasticClient = elasticClient;
+        _unitOfWork = unitOfWork;
     }
 
     private static string ReportIndex() => $"reports_{DateTime.UtcNow:yyyy.MM.dd}";

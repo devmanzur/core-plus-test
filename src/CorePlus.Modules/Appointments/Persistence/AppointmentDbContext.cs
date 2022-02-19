@@ -1,7 +1,9 @@
-﻿using System.Reflection;
+﻿using System.Data;
+using System.Reflection;
 using CorePlus.Modules.Appointments.Interfaces;
 using CorePlus.Modules.Appointments.Models;
 using CorePlus.Modules.Shared.Interfaces;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.Configuration;
@@ -51,6 +53,41 @@ public class AppointmentDbContext : DbContext, IUnitOfWork
             ).ToList();
             
         return changes;
+    }
+    
+    public async Task<List<T?>> GetListAsync<T>(string query, params SqlParameter[] parameter) where T : class
+    {
+        await using var command = Database.GetDbConnection().CreateCommand();
+        command.CommandText = query;
+        command.CommandType = CommandType.Text;
+
+        foreach (var sqlParameter in parameter)
+        {
+            command.Parameters.Add(sqlParameter);
+        }
+
+        await Database.OpenConnectionAsync();
+
+        var list = new List<T?>();
+        await using (var result = await command.ExecuteReaderAsync())
+        {
+            while (await result.ReadAsync())
+            {
+                var item = Activator.CreateInstance<T>();
+                foreach (var prop in item.GetType().GetProperties())
+                {
+                    if (!Equals(result[prop.Name], DBNull.Value))
+                    {
+                        prop.SetValue(item, result[prop.Name], null);
+                    }
+                }
+
+                list.Add(item);
+            }
+        }
+
+        await Database.CloseConnectionAsync();
+        return list;
     }
     
     private static bool HasDomainEvents(EntityEntry<AggregateRoot> x)

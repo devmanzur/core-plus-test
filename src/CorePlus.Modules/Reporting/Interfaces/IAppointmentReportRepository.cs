@@ -6,9 +6,12 @@ public interface IAppointmentReportRepository
 {
     Task CreateReportAsync(AppointmentRecord appointment);
 
-    Task<List<PractitionerMonthlyCostRevenueSummaryDto>> GetMonthlyProfitSummary(List<Guid> practitionerIds, DateTime startDate,
+    Task<List<MonthlyCostRevenueBucketDto>> GetMonthlyProfitSummary(List<int> practitionerIds, DateTime startDate,
         DateTime endDate);
 
-    Task<List<AppointmentCostRevenueSummaryDto>> GetAppointmentCostRevenueSummary(Guid practitionerId, DateTime startDate, DateTime endDate);
+    Task<List<MonthlyCostRevenueSummaryDto>> GetMonthlyProfitSummaryBySql(List<int> practitionerIds, DateTime startDate,
+        DateTime endDate);
+
+    Task<List<AppointmentCostRevenueSummaryDto>> GetPractitionerAppointmentBreakDown(Guid practitionerId, DateTime startDate, DateTime endDate);
 
 }
