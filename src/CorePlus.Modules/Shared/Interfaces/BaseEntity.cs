@@ -2,5 +2,8 @@
 
 public abstract class BaseEntity
 {
-    public int Id { get; set; }
+    //database generated id
+    public Guid Id { get; set; }
+    //application generated id shared across databases
+    public Guid UniqueId { get; set; }
 }

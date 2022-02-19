@@ -3,16 +3,10 @@ using CorePlus.Modules.Appointments.Models;
 using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
 
-namespace CorePlus.Modules.Appointments.Services;
+namespace CorePlus.Modules.Appointments.UseCases;
 
-public class AppointmentService : IAppointmentService
+public partial class AppointmentService
 {
-    private readonly IUnitOfWork _unitOfWork;
-
-    public AppointmentService(IUnitOfWork unitOfWork)
-    {
-        _unitOfWork = unitOfWork;
-    }
 
     public async Task<Result<AppointmentDto>> CreateAppointment(AppointmentDto request)
     {
@@ -23,7 +17,7 @@ public class AppointmentService : IAppointmentService
             return Result.Failure<AppointmentDto>("Practitioner not found!");
         }
 
-        var appointment = new Appointment(request.ClientName, request.AppointmentType, request.Duration, request.Cost,
+        var appointment = new Appointment(request.Date,request.ClientName, request.AppointmentType, request.Duration, request.Cost,
             request.Revenue);
         practitioner.Value!.AddAppointment(appointment);
 

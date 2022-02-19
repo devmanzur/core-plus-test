@@ -2,10 +2,11 @@
 
 public class AppointmentDto
 {
-    public int PractitionerId { get;  set; }
+    public Guid PractitionerId { get;  set; }
     public string ClientName { get;  set; }
     public string AppointmentType { get;  set; }
     public int Duration { get;  set; }
     public decimal Cost { get;  set; }
     public decimal Revenue { get;  set; }
+    public DateTime Date { get; set; }
 }
