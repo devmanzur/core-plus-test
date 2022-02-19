@@ -17,7 +17,8 @@ namespace CorePlus.Modules.Migrations
                 schema: "appointments",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UniqueId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
@@ -31,8 +32,9 @@ namespace CorePlus.Modules.Migrations
                 schema: "appointments",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PractitionerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PractitionerId = table.Column<long>(type: "bigint", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ClientName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AppointmentType = table.Column<string>(type: "nvarchar(max)", nullable: false),

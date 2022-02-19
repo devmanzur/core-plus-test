@@ -10,6 +10,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddReportModule(builder.Configuration);
 builder.Services.AddAppointmentModule(builder.Configuration);
+builder.Services.AddHostedService<DatabaseSeedingService>();
+
 builder.Services.Configure<RouteOptions>(options =>
 {
     options.LowercaseUrls = true;

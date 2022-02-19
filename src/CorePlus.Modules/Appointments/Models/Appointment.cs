@@ -17,7 +17,7 @@ public class Appointment : BaseEntity
     }
 
 
-    public Guid PractitionerId { get; private set; }
+    public long PractitionerId { get; private set; }
     public Practitioner Practitioner { get; private set; }
     public DateTime Date { get; private set; }
     public string ClientName { get; private set; }

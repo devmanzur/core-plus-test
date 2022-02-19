@@ -2,8 +2,9 @@
 
 namespace CorePlus.Modules.Reporting.Models;
 
-public class AppointmentRecord : BaseEntity
+public class AppointmentRecord
 {
+    public Guid UniqueId { get; set; }
     public PractitionerRecord Practitioner { get; set; }
     public string ClientName { get; set; }
     public string AppointmentType { get; set; }

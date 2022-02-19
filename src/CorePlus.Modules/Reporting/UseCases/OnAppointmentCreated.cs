@@ -20,7 +20,7 @@ public class OnAppointmentCreated : INotificationHandler<AppointmentCreated>
         {
             Practitioner = new PractitionerRecord()
             {
-                Id = notification.PractitionerUniqueId,
+                UniqueId = notification.PractitionerUniqueId,
                 Name = notification.PractitionerName
             },
             UniqueId = notification.AppointmentUniqueId,

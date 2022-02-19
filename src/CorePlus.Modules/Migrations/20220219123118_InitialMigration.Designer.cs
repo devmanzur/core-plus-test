@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CorePlus.Modules.Migrations
 {
     [DbContext(typeof(AppointmentDbContext))]
-    [Migration("20220219120948_InitialMigration")]
+    [Migration("20220219123118_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,9 +27,11 @@ namespace CorePlus.Modules.Migrations
 
             modelBuilder.Entity("CorePlus.Modules.Appointments.Models.Appointment", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<string>("AppointmentType")
                         .IsRequired()
@@ -48,8 +50,8 @@ namespace CorePlus.Modules.Migrations
                     b.Property<int>("Duration")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("PractitionerId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<long>("PractitionerId")
+                        .HasColumnType("bigint");
 
                     b.Property<double>("Revenue")
                         .HasColumnType("float");
@@ -66,9 +68,11 @@ namespace CorePlus.Modules.Migrations
 
             modelBuilder.Entity("CorePlus.Modules.Appointments.Models.Practitioner", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<string>("Name")
                         .IsRequired()

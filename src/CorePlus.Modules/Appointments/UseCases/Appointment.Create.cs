@@ -10,7 +10,7 @@ public partial class AppointmentService
     public async Task<Result<AppointmentDto>> CreateAppointment(AppointmentDto request)
     {
         Maybe<Practitioner?> practitioner =
-            await _unitOfWork.Practitioners.FirstOrDefaultAsync(x => x.Id == request.PractitionerId);
+            await _unitOfWork.Practitioners.FirstOrDefaultAsync(x => x.UniqueId == request.PractitionerId);
         if (practitioner.HasNoValue)
         {
             return Result.Failure<AppointmentDto>("Practitioner not found!");
@@ -25,7 +25,7 @@ public partial class AppointmentService
         return Result.Success(new AppointmentDto()
         {
             Id = appointment.UniqueId,
-            PractitionerId = practitioner.Value!.Id,
+            PractitionerId = practitioner.Value!.UniqueId,
             PractitionerName = practitioner.Value!.Name,
             Cost = appointment.Cost,
             Duration = appointment.Duration,

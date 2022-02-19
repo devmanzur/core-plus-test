@@ -1,6 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9986B2A4-CAF5-4A81-8AFB-E498118993E7}"
+	ProjectSection(SolutionItems) = preProject
+		src\docker-compose.yml = src\docker-compose.yml
+		src\docker-compose.override.yml = src\docker-compose.override.yml
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CorePlus.Web", "src\CorePlus.Web\CorePlus.Web.csproj", "{1589D111-BE8A-432F-9841-C10F2D75BE17}"
 EndProject

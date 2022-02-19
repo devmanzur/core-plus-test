@@ -26,7 +26,7 @@ public class AppointmentsController : BaseApiController
         return BadRequest(Envelope.Error(createAppointment.Error));
     }
     
-    [HttpGet("appointments/{appointmentId}")]
+    [HttpGet("{appointmentId}")]
     public async Task<ActionResult<AppointmentDto>> GetAppointmentDetails(Guid appointmentId)
     {
         var appointment = await _appointmentService.GetAppointmentDetail(appointmentId);

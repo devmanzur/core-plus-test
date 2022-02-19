@@ -8,7 +8,9 @@ public partial class AppointmentService
     
     public async Task<AppointmentDto?> GetAppointmentDetail(Guid appointmentId)
     {
-        var detail = await _unitOfWork.Appointments.AsNoTracking()
+        var detail = await _unitOfWork.Appointments
+            .Include(x=>x.Practitioner)
+            .AsNoTracking()
             .Select(x => new AppointmentDto()
             {
                 Id = x.UniqueId,
@@ -18,7 +20,7 @@ public partial class AppointmentService
                 Revenue = x.Revenue,
                 AppointmentType = x.AppointmentType,
                 ClientName = x.ClientName,
-                PractitionerId = x.PractitionerId,
+                PractitionerId = x.Practitioner.UniqueId,
                 PractitionerName = x.Practitioner.Name
             }).FirstOrDefaultAsync(x=>x.Id == appointmentId);
 
