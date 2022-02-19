@@ -4,7 +4,7 @@ using Nest;
 
 namespace CorePlus.Modules.Reporting.UseCases;
 
-public partial class AppointmentReportService : IAppointmentReportService
+public partial class AppointmentReportRepository : IAppointmentReportRepository
 {
     public async Task CreateReportAsync(AppointmentRecord appointment)
     {

@@ -3,11 +3,11 @@ using Nest;
 
 namespace CorePlus.Modules.Reporting.UseCases;
 
-public partial class AppointmentReportService
+public partial class AppointmentReportRepository
 {
     private readonly ElasticClient _elasticClient;
 
-    public AppointmentReportService(ElasticClient elasticClient)
+    public AppointmentReportRepository(ElasticClient elasticClient)
     {
         _elasticClient = elasticClient;
     }

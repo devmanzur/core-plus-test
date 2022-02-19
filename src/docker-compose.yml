@@ -1,0 +1,22 @@
+version: '3.4'
+
+services:
+  sqldb:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+
+  portainer:
+    image: portainer/portainer-ce
+
+  coreplus-web:
+    image: ${DOCKER_REGISTRY-}coreplus.web
+    build:
+      context: .
+      dockerfile: CorePlus.Web/Dockerfile
+      
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.9.2
+
+volumes:
+  portainer_data:
+  sqlserver_data:
+  elasticsearch-data:

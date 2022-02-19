@@ -2,7 +2,7 @@
 
 namespace CorePlus.Modules.Reporting.UseCases;
 
-public partial class AppointmentReportService
+public partial class AppointmentReportRepository
 {
     public Task<AppointmentDetailDto> GetAppointmentDetail(Guid appointmentId)
     {

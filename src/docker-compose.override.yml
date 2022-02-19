@@ -1,0 +1,47 @@
+version: '3.4'
+
+services:
+  sqldb:
+    container_name: sqldb
+    environment:
+      - SA_PASSWORD=Pass@word
+      - ACCEPT_EULA=Y
+    restart: always
+    ports:
+      - "5433:1433"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+
+  portainer:
+    container_name: portainer
+    restart: always
+    ports:
+      - "8081:8000"
+      - "9090:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+
+  coreplus-web:
+    container_name: coreplus-web
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - "ConnectionStrings:CorePlusDb=Server=sqldb;Initial Catalog=CorePlusDb;Persist Security Info=False;User Id=sa;Password=Pass@word;"
+      - "ElasticConfiguration:Server=http://elasticsearch:9200"
+    depends_on:
+      - sqldb
+    ports:
+      - "8000:80"
+        
+  elasticsearch:
+    container_name: elasticsearch
+    environment:
+      - xpack.monitoring.enabled=true
+      - xpack.watcher.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - discovery.type=single-node
+    ports:
+      - "9200:9200"
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+        

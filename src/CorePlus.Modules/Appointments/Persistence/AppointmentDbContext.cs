@@ -8,13 +8,13 @@ using Microsoft.Extensions.Configuration;
 
 namespace CorePlus.Modules.Appointments.Persistence;
 
-public class AppointmentContext : DbContext, IUnitOfWork
+public class AppointmentDbContext : DbContext, IUnitOfWork
 {
     private readonly IConfiguration _configuration;
     private readonly IDomainEventDispatcher _domainEventDispatcher;
     public DbSet<Practitioner> Practitioners { get; set; }
 
-    public AppointmentContext(IConfiguration configuration, IDomainEventDispatcher domainEventDispatcher)
+    public AppointmentDbContext(IConfiguration configuration, IDomainEventDispatcher domainEventDispatcher)
     {
         _configuration = configuration;
         _domainEventDispatcher = domainEventDispatcher;
@@ -24,13 +24,13 @@ public class AppointmentContext : DbContext, IUnitOfWork
     {
         builder.HasDefaultSchema("appointments");
         base.OnModelCreating(builder);
-        builder.ApplyConfigurationsFromAssembly(Assembly.GetAssembly(typeof(AppointmentContext))!);
+        builder.ApplyConfigurationsFromAssembly(Assembly.GetAssembly(typeof(AppointmentDbContext))!);
     }
     
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
         base.OnConfiguring(options);
-        options.UseSqlServer(_configuration.GetConnectionString("DefaultConnection"));
+        options.UseSqlServer(_configuration.GetConnectionString("CorePlusDb"));
     }
     
     public async Task<int> CommitAsync(CancellationToken cancellationToken)
