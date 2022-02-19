@@ -10,8 +10,8 @@ public class AppointmentCreated : IDomainEvent
     public string ClientName { get; set; }
     public string AppointmentType { get; set; }
     public int Duration { get; set; }
-    public decimal Cost { get; set; }
-    public decimal Revenue { get; set; }
+    public double Cost { get; set; }
+    public double Revenue { get; set; }
     public DateTime Date { get; set; }
 
     public AppointmentCreated()

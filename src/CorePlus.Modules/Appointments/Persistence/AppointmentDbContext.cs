@@ -13,6 +13,7 @@ public class AppointmentDbContext : DbContext, IUnitOfWork
     private readonly IConfiguration _configuration;
     private readonly IDomainEventDispatcher _domainEventDispatcher;
     public DbSet<Practitioner> Practitioners { get; set; }
+    public DbSet<Appointment> Appointments { get; set; }
 
     public AppointmentDbContext(IConfiguration configuration, IDomainEventDispatcher domainEventDispatcher)
     {

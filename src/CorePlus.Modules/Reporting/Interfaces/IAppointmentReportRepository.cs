@@ -11,5 +11,4 @@ public interface IAppointmentReportRepository
 
     Task<List<AppointmentCostRevenueSummaryDto>> GetAppointmentCostRevenueSummary(Guid practitionerId, DateTime startDate, DateTime endDate);
 
-    Task<AppointmentDetailDto> GetAppointmentDetail(Guid appointmentId);
 }
