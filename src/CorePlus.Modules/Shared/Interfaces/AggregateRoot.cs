@@ -1,6 +1,6 @@
 ﻿namespace CorePlus.Modules.Shared.Interfaces;
 
-internal abstract class AggregateRoot : BaseEntity
+public abstract class AggregateRoot : BaseEntity
 {
     private List<IDomainEvent> _domainEvents = new List<IDomainEvent>();
     public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();

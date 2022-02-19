@@ -2,8 +2,18 @@
 
 namespace CorePlus.Modules.Appointments.Models;
 
-internal class Appointment : BaseEntity
+public class Appointment : BaseEntity
 {
+    public Appointment(string clientName, string appointmentType, int duration, decimal cost, decimal revenue)
+    {
+        ClientName = clientName;
+        AppointmentType = appointmentType;
+        Duration = duration;
+        Cost = cost;
+        Revenue = revenue;
+    }
+
+
     public int PractitionerId { get; private set; }
     public Practitioner Practitioner { get; private set; }
     public string ClientName { get; private set; }

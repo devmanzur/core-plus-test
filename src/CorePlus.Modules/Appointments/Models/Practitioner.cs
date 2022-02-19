@@ -1,8 +1,9 @@
-﻿using CorePlus.Modules.Shared.Interfaces;
+﻿using CorePlus.Modules.Appointments.Events;
+using CorePlus.Modules.Shared.Interfaces;
 
 namespace CorePlus.Modules.Appointments.Models;
 
-internal class Practitioner : AggregateRoot
+public class Practitioner : AggregateRoot
 {
     public Practitioner(string name)
     {
@@ -17,5 +18,6 @@ internal class Practitioner : AggregateRoot
     public void AddAppointment(Appointment appointment)
     {
         _appointments.Add(appointment);
+        AddDomainEvent(new OnAppointmentCreated(this,appointment));
     }
 }
