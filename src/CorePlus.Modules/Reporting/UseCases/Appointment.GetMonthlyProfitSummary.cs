@@ -20,10 +20,16 @@ public partial class AppointmentReportRepository
                 .Terms(practitionerIds)
             )
         };
+        
+        var sortDescriptor = new SortDescriptor<AppointmentRecord>();
+        sortDescriptor.Ascending(s => s.Date)
+            .Ascending(s=>s.Practitioner.Id);
+        
 
         var searchResponse = await _elasticClient.SearchAsync<AppointmentRecord>(x =>
             x.Query(q =>
                     q.Bool(b => b.Filter(filters)))
+                .Sort(s=> sortDescriptor)
                 .Size(0)
                 .Aggregations(a =>
                     a.DateHistogram("revenue_per_month", date => date

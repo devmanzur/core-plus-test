@@ -56,7 +56,7 @@ public class AppointmentsController : BaseApiController
     public async Task<ActionResult<Envelope<List<AppointmentCostRevenueSummaryDto>>>> GetPractitionerAppointments([FromQuery] PractitionerSummaryQueryModel request)
     {
         var start = new DateTime(request.Month.Year, request.Month.Month, 1);
-        var end = start.AddMonths(1).AddDays(-1);
+        var end = start.AddMonths(1).AddMinutes(-1);
         
         var appointments =
             await _appointmentReportRepository.GetAppointments(request.PractitionerId, start, end);

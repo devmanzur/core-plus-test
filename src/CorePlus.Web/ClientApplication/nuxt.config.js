@@ -4,7 +4,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'Numberskills',
+    title: 'Core Plus',
     htmlAttrs: {
       lang: 'en',
     },
