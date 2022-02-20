@@ -63,7 +63,7 @@ public class DatabaseSeedingService : IHostedService
                 }
             });
 
-            await elasticClient.IndexManyAsync(records, $"reports_{DateTime.UtcNow:yyyy.MM.dd}", cancellationToken);
+            await elasticClient.IndexManyAsync(records, $"appointments_{DateTime.UtcNow:yyyy.MM.dd}", cancellationToken);
             await context.SaveChangesAsync(cancellationToken);
         }
     }

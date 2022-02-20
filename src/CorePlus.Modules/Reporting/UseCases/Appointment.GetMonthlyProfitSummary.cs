@@ -6,7 +6,7 @@ namespace CorePlus.Modules.Reporting.UseCases;
 
 public partial class AppointmentReportRepository
 {
-    public async Task<List<MonthlyCostRevenueBucketDto>> GetMonthlyProfitSummary(List<int> practitionerIds,
+    public async Task<List<MonthlyCostRevenueSummaryDto>> GetMonthlyProfitSummary(List<long> practitionerIds,
         DateTime startDate, DateTime endDate)
     {
         var filters = new List<Func<QueryContainerDescriptor<AppointmentRecord>, QueryContainer>>
@@ -44,14 +44,19 @@ public partial class AppointmentReportRepository
                     ))
                 .TrackTotalHits(true)
                 .Index(defaultIndex));
+        
+        if (!searchResponse.IsValid)
+        {
+            return new List<MonthlyCostRevenueSummaryDto>();
+        }
 
         var result = searchResponse.Aggregations.DateHistogram("revenue_per_month")
             .Buckets.SelectMany(x => x.Histogram("per_practitioner").Buckets.Select(v =>
             {
                 if (x.DocCount == null)
-                    return new MonthlyCostRevenueBucketDto
+                    return new MonthlyCostRevenueSummaryDto
                     {
-                        Date = x.KeyAsString,
+                        Month = x.KeyAsString,
                         PractitionerId = (int) v.Key,
                         TotalRevenue = 0,
                         TotalCost = 0,
@@ -60,48 +65,22 @@ public partial class AppointmentReportRepository
                 var cost = v.ValueCount("total_cost").Value;
                 if (revenue != null && cost != null)
                     if (x.DocCount != null)
-                        return new MonthlyCostRevenueBucketDto
+                        return new MonthlyCostRevenueSummaryDto
                         {
-                            Date = x.KeyAsString,
+                            Month = x.KeyAsString,
                             PractitionerId = (int) v.Key,
                             TotalRevenue = Math.Round(revenue.Value, 4),
                             TotalCost = Math.Round(cost.Value, 4),
                         };
 
-                return new MonthlyCostRevenueBucketDto
+                return new MonthlyCostRevenueSummaryDto
                 {
-                    Date = x.KeyAsString,
+                    Month = x.KeyAsString,
                     TotalRevenue = 0,
                     TotalCost = 0,
                 };
             })).ToList();
 
         return result;
-    }
-
-    public async Task<List<MonthlyCostRevenueSummaryDto>> GetMonthlyProfitSummaryBySql(List<int> practitionerIds,
-        DateTime startDate, DateTime endDate)
-    {
-        var ids = $"({string.Join(",", practitionerIds.ToArray())})";
-
-        var sqlQuery = $@"SELECT  GroupingYear = DATEPART(YEAR, Date),
-                    GroupingMonth = DATEPART(MONTH, Date),
-                    a.PractitionerId,
-                    PractitionerName,
-                    SUM(Cost) TotalCost,
-                    SUM(Revenue) TotalRevenue
-                    FROM    [appointments].Appointments a
-                    LEFT JOIN (SELECT Id as PractitionerId, Name as PractitionerName from [appointments].Practitioners) p on p.PractitionerId = a.PractitionerId
-                    WHERE   Date >= @startDate 
-                    AND     Date <= @endDate
-                    AND a.PractitionerId IN {ids}
-                    GROUP BY DATEPART(YEAR, Date), DATEPART(MONTH, Date), a.PractitionerId, PractitionerName
-                    ORDER BY GroupingYear, GroupingMonth;";
-
-
-        var summary = await _unitOfWork.GetListAsync<MonthlyCostRevenueSummaryDto>(sqlQuery,
-            new SqlParameter("@startDate", startDate), new SqlParameter("@endDate", endDate));
-
-        return summary;
     }
 }
