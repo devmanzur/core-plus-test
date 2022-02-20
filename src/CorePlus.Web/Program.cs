@@ -11,7 +11,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddReportModule(builder.Configuration);
 builder.Services.AddAppointmentModule(builder.Configuration);
 builder.Services.AddHostedService<DatabaseSeedingService>();
-
+builder.Services.AddSpaStaticFiles(options => options.RootPath = "ClientApplication/dist");
 builder.Services.Configure<RouteOptions>(options =>
 {
     options.LowercaseUrls = true;
@@ -31,6 +31,18 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-app.MapControllers();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
+app.UseSpa(spa =>
+{
+    spa.Options.SourcePath = NuxtIntegration.SpaSource;
+    if (builder.Environment.IsDevelopment())
+    {
+        // Launch development server for Nuxt
+        spa.UseNuxtDevelopmentServer();
+    }
+});
 
 app.Run();

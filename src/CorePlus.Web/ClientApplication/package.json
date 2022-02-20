@@ -1,0 +1,48 @@
+{
+  "name": "Numberskills",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate",
+    "lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
+    "lint:prettier": "prettier --check .",
+    "lint": "yarn lint:js && yarn lint:prettier",
+    "lintfix": "prettier --write --list-different . && yarn lint:js --fix"
+  },
+  "dependencies": {
+    "@nuxtjs/auth-next": "^5.0.0-1642152945.3bb6b5f",
+    "@nuxtjs/axios": "^5.13.6",
+    "@syncfusion/ej2-data": "^18.1.45",
+    "@syncfusion/ej2-vue-calendars": "^18.1.45",
+    "@syncfusion/ej2-vue-charts": "^18.1.45",
+    "@syncfusion/ej2-vue-dropdowns": "^18.1.45",
+    "@syncfusion/ej2-vue-grids": "^18.1.45",
+    "@vue-hero-icons/outline": "^1.7.2",
+    "core-js": "^3.19.3",
+    "lodash-es": "^4.17.21",
+    "nuxt": "^2.15.8",
+    "nuxt-auth": "^2.0.10",
+    "vue": "^2.6.14",
+    "vue-server-renderer": "^2.6.14",
+    "vue-template-compiler": "^2.6.14",
+    "webpack": "^4.46.0",
+    "yarn": "^1.22.17"
+  },
+  "devDependencies": {
+    "@babel/eslint-parser": "^7.16.3",
+    "@nuxt/types": "~2.15.0",
+    "@nuxtjs/eslint-config": "^8.0.0",
+    "@nuxtjs/eslint-module": "^3.0.2",
+    "@nuxtjs/tailwindcss": "^4.2.1",
+    "eslint": "^8.4.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-nuxt": "^3.1.0",
+    "eslint-plugin-vue": "^8.2.0",
+    "postcss": "^8.4.4",
+    "prettier": "^2.5.1",
+    "source-map": "^0.7.3"
+  }
+}
