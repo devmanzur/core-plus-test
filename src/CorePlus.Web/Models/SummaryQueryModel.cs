@@ -4,7 +4,10 @@ public class SummaryQueryModel
 {
     public DateTime Start { get; set; }
     public DateTime End { get; set; }
-    public List<long> Practitioners { get; set; } = new List<long>();
+    public string Practitioners { get; set; }
+    
+    public List<long> PractitionerIds => Practitioners.Split(',').ToList().ConvertAll(Convert.ToInt64);
+
 }
 
 public class PractitionerSummaryQueryModel

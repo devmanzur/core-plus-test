@@ -1,5 +1,22 @@
 <template>
   <div class='container'>
+    <section class='mb-5 flex space-x-2.5 w-1/3'>
+        <ejs-multiselect
+        id='multiselect' :data-source='practitioners'
+        :fields="fields" mode="CheckBox"
+        v-model="filter.practitioners"
+        placeholder="Select practitioners">
+        </ejs-multiselect>
+        <ejs-daterangepicker
+        placeholder="Select date range"
+        format="yyyy-MM-dd"
+        v-model="filter.dateRange">
+        </ejs-daterangepicker>
+        <button class="bg-indigo-500 hover:bg-indigo-700 text-white font-semibold py-1 px-4 rounded" @click="onFiltersApplied">
+          Search
+        </button>
+    </section>
+
     <section>
       <ejs-grid
         ref='reportsGrid'
@@ -52,8 +69,9 @@ import {
   Sort,
   CommandColumn
 } from '@syncfusion/ej2-vue-grids';
-import {Query} from '@syncfusion/ej2-data';
+import {MultiSelect, CheckBoxSelection} from "@syncfusion/ej2-vue-dropdowns";
 import {cloneDeep} from 'lodash-es'
+MultiSelect.Inject(CheckBoxSelection);
 
 export default {
   name: 'UsersPage',
@@ -62,6 +80,7 @@ export default {
   },
   data() {
     return {
+      fields: { text: 'name', value: 'id' },
       showAppointmentBreakDown: false,
       selectedReport: {
         month: '',
@@ -69,7 +88,7 @@ export default {
       },
       filter: {
         practitioners: [],
-        dateRange: {},
+        dateRange: null,
       },
       settings: {
         gridSettings: {
@@ -96,6 +115,9 @@ export default {
     };
   },
   computed: {
+    practitioners() {
+      return cloneDeep(this.$store.state.appointments.practitioners);
+    },
     reports() {
       return cloneDeep(this.$store.state.appointments.reports);
     },
@@ -132,6 +154,7 @@ export default {
       this.$store.dispatch('appointments/getAppointments', this.selectedReport);
     },
     getReports() {
+      debugger;
       this.$store.dispatch('appointments/getReports', this.filter);
     },
     toggleBreakdownUI() {

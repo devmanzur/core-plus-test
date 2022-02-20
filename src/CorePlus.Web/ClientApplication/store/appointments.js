@@ -17,7 +17,7 @@ export const mutations = {
 };
 
 export const actions = {
-  async getPractitioners({ state, commit }, payload) {
+  async getPractitioners({state, commit}, payload) {
     const existingItems = state.practitioners;
     if (existingItems.length > 0 && !payload.reload) return;
     const queryParams = {};
@@ -30,15 +30,15 @@ export const actions = {
     }
   },
 
-  async getReports({ commit }, payload) {
-    if(payload.practitioners==null || payload.practitioners.length===0){
+  async getReports({commit}, payload) {
+    if (payload.practitioners == null || payload.practitioners.length === 0) {
       commit('setReports', []);
       return;
     }
     const queryParams = {
-      practitioners: payload.practitioners,
-      start: payload.start,
-      end: payload.end
+      practitioners: payload.practitioners.join(","),
+      start: payload.dateRange[0],
+      end: payload.dateRange[1]
     };
     const response = await this.$axios.$get('appointments/profit-reports', {
       params: queryParams,
@@ -48,7 +48,7 @@ export const actions = {
     }
   },
 
-  async getAppointments({ commit }, payload) {
+  async getAppointments({commit}, payload) {
     const queryParams = {
       practitionerId: payload.practitionerId,
       month: payload.month

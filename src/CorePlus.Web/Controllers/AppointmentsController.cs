@@ -46,7 +46,7 @@ public class AppointmentsController : BaseApiController
     public async Task<ActionResult<Envelope<List<MonthlyCostRevenueSummaryDto>>>> GetProfitReport([FromQuery] SummaryQueryModel request)
     {
         var summary =
-            await _appointmentReportRepository.GetMonthlyProfitSummary(request.Practitioners, request.Start,
+            await _appointmentReportRepository.GetMonthlyProfitSummary(request.PractitionerIds, request.Start,
                 request.End);
 
         return Ok(Envelope<List<MonthlyCostRevenueSummaryDto>>.Ok(summary));
