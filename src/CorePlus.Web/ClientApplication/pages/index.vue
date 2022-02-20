@@ -123,7 +123,7 @@
             header-text='Actions'
             width='240'
             text-align='Center'
-            :commands='settings.commands'
+            :commands='settings.appointmentCommands'
           ></e-column>
         </e-columns>
       </ejs-grid>
@@ -186,6 +186,17 @@ export default {
             }
           }
         ],
+        appointmentCommands: [
+          {
+            type: 'view-appointment',
+            title: 'View appointment',
+            buttonOption: {
+              cssClass: 'e-flat',
+              iconCss: 'e-print-layout e-icons'
+            }
+          }
+        ],
+        
         pageSettings: {pageSize: 10}
       }
     };
@@ -222,17 +233,10 @@ export default {
     },
     onAppointmentCommandClicked(args) {
       const type = args.commandColumn.type;
-      if (type === 'view-breakdown') {
-        const report = args.rowData;
-        if (report.practitionerId === this.selectedReport.practitionerId
-          && report.month === this.selectedReport.month
-          && this.appointments.length > 0) {
-          this.toggleBreakdownUI();
-          return;
-        }
-        this.selectedReport = report;
-        this.getAppointments();
-        this.showAppointmentBreakDown = true;
+      if (type === 'view-appointment') {
+        const appointment = args.rowData;
+        console.log(appointment);
+       
       }
     },
     onFiltersApplied() {
