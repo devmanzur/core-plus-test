@@ -7,10 +7,10 @@ namespace CorePlus.Modules.Appointments.UseCases;
 
 public partial class AppointmentService
 {
-    public async Task<Result<AppointmentDto>> CreateAppointment(AppointmentDto request)
+    public async Task<Result<AppointmentDto>> CreateAppointment(AppointmentCreateDto request)
     {
         Maybe<Practitioner?> practitioner =
-            await _unitOfWork.Practitioners.FirstOrDefaultAsync(x => x.UniqueId == request.PractitionerId);
+            await _unitOfWork.Practitioners.FirstOrDefaultAsync(x => x.Id == request.PractitionerId);
         if (practitioner.HasNoValue)
         {
             return Result.Failure<AppointmentDto>("Practitioner not found!");

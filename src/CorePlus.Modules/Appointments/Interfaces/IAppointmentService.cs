@@ -5,7 +5,7 @@ namespace CorePlus.Modules.Appointments.Interfaces;
 
 public interface IAppointmentService
 {
-    Task<Result<AppointmentDto>> CreateAppointment(AppointmentDto request);
+    Task<Result<AppointmentDto>> CreateAppointment(AppointmentCreateDto request);
     Task<AppointmentDto?> GetAppointmentDetail(Guid appointmentId);
 
 }

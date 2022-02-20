@@ -18,7 +18,7 @@ public class PractitionerService : IPractitionerService
         return _unitOfWork.Practitioners.AsNoTracking()
             .Select(x => new PractitionerDto()
             {
-                Id = x.UniqueId,
+                Id = x.Id,
                 Name = x.Name
             }).ToListAsync();
 

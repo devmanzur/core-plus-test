@@ -19,7 +19,7 @@ public class AppointmentsController : BaseApiController
     }
 
     [HttpPost]
-    public async Task<ActionResult<Envelope<AppointmentDto>>> Create([FromBody] AppointmentDto request)
+    public async Task<ActionResult<Envelope<AppointmentDto>>> Create([FromBody] AppointmentCreateDto request)
     {
         var createAppointment = await _appointmentService.CreateAppointment(request);
         if (createAppointment.IsSuccess)
