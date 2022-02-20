@@ -42,7 +42,7 @@ public class AppointmentsController : BaseApiController
         return Ok(Envelope<AppointmentDto>.Ok(appointment));
     }
     
-    [HttpGet("profit-report")]
+    [HttpGet("profit-reports")]
     public async Task<ActionResult<Envelope<List<MonthlyCostRevenueSummaryDto>>>> GetProfitReport([FromQuery] SummaryQueryModel request)
     {
         var summary =
