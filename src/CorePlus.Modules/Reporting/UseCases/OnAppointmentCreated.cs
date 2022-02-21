@@ -7,16 +7,16 @@ namespace CorePlus.Modules.Reporting.UseCases;
 
 public class OnAppointmentCreated : INotificationHandler<AppointmentCreated>
 {
-    private readonly IAppointmentReportRepository _appointmentReportRepository;
+    private readonly IAppointmentReportService _appointmentReportService;
 
-    public OnAppointmentCreated(IAppointmentReportRepository appointmentReportRepository)
+    public OnAppointmentCreated(IAppointmentReportService appointmentReportService)
     {
-        _appointmentReportRepository = appointmentReportRepository;
+        _appointmentReportService = appointmentReportService;
     }
     
     public Task Handle(AppointmentCreated notification, CancellationToken cancellationToken)
     {
-        return _appointmentReportRepository.CreateReportAsync(new AppointmentRecord()
+        return _appointmentReportService.CreateReportAsync(new AppointmentRecord()
         {
             Practitioner = new PractitionerRecord()
             {

@@ -10,12 +10,12 @@ namespace CorePlus.Web.Controllers;
 public class AppointmentsController : BaseApiController
 {
     private readonly IAppointmentService _appointmentService;
-    private readonly IAppointmentReportRepository _appointmentReportRepository;
+    private readonly IAppointmentReportService _appointmentReportService;
 
-    public AppointmentsController(IAppointmentService appointmentService, IAppointmentReportRepository appointmentReportRepository)
+    public AppointmentsController(IAppointmentService appointmentService, IAppointmentReportService appointmentReportService)
     {
         _appointmentService = appointmentService;
-        _appointmentReportRepository = appointmentReportRepository;
+        _appointmentReportService = appointmentReportService;
     }
 
     [HttpPost]
@@ -46,7 +46,7 @@ public class AppointmentsController : BaseApiController
     public async Task<ActionResult<Envelope<List<MonthlyCostRevenueSummaryDto>>>> GetProfitReport([FromQuery] SummaryQueryModel request)
     {
         var summary =
-            await _appointmentReportRepository.GetMonthlyProfitSummary(request.PractitionerIds, request.Start,
+            await _appointmentReportService.GetMonthlyProfitSummary(request.PractitionerIds, request.Start,
                 request.End);
 
         return Ok(Envelope<List<MonthlyCostRevenueSummaryDto>>.Ok(summary));
@@ -59,7 +59,7 @@ public class AppointmentsController : BaseApiController
         var end = start.AddMonths(1).AddMinutes(-1);
         
         var appointments =
-            await _appointmentReportRepository.GetAppointments(request.PractitionerId, start, end);
+            await _appointmentReportService.GetAppointments(request.PractitionerId, start, end);
         
         return Ok(Envelope<List<AppointmentCostRevenueSummaryDto>>.Ok(appointments));
     }

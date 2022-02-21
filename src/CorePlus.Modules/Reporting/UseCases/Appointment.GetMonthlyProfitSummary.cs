@@ -4,7 +4,7 @@ using Nest;
 
 namespace CorePlus.Modules.Reporting.UseCases;
 
-public partial class AppointmentReportRepository
+public partial class AppointmentReportService
 {
     public async Task<List<MonthlyCostRevenueSummaryDto>> GetMonthlyProfitSummary(List<long> practitionerIds,
         DateTime startDate, DateTime endDate)

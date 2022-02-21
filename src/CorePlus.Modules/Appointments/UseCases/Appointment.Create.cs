@@ -25,7 +25,7 @@ public partial class AppointmentService
         return Result.Success(new AppointmentDto()
         {
             Id = appointment.UniqueId,
-            PractitionerId = practitioner.Value!.UniqueId,
+            PractitionerId = practitioner.Value!.Id,
             PractitionerName = practitioner.Value!.Name,
             Cost = appointment.Cost,
             Duration = appointment.Duration,

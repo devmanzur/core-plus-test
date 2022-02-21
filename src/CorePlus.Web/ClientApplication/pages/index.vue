@@ -1,133 +1,141 @@
 <template>
-  <div class='container'>
+  <div class='w-screen mx-auto text-center'>
     <section class='mb-5 flex space-x-2.5 w-1/2'>
-        <ejs-multiselect
+      <ejs-multiselect
         id='multiselect' :data-source='practitioners'
         :fields="fields" mode="CheckBox"
         v-model="filter.practitioners"
         placeholder="Select practitioners">
-        </ejs-multiselect>
-        <ejs-daterangepicker
+      </ejs-multiselect>
+      <ejs-daterangepicker
         v-model="filter.dateRange"
         placeholder="Select date range"
-        format="yyyy-MM-dd" 
+        format="yyyy-MM-dd"
         :min="dateRangeConfig.minDate"
-        :max="dateRangeConfig.maxDate" 
+        :max="dateRangeConfig.maxDate"
         :start-date="dateRangeConfig.startDate"
         :end-date="dateRangeConfig.endDate">
-        </ejs-daterangepicker>
-        <button class="bg-indigo-500 hover:bg-indigo-700 text-white font-semibold py-1 px-4 rounded" @click="onFiltersApplied">
-          Search
-        </button>
+      </ejs-daterangepicker>
+      <button class="bg-indigo-500 hover:bg-indigo-700 text-white font-semibold py-1 px-4 rounded"
+              @click="onFiltersApplied">
+        Search
+      </button>
     </section>
 
-    <section>
-      <ejs-grid
-        ref='reportsGrid'
-        :data-source='reports'
-        :allow-paging='true'
-        :page-settings='settings.pageSettings'
-        :edit-settings='settings.editSettings'
-        :allow-sorting='true'
-        :command-click='onCommandClicked'
-      >
-        <e-columns>
-          <e-column
-            field='practitionerId'
-            header-text='Practitioner Id'
-            :allow-editing='false'
-            text-align='Left'
-          ></e-column>
-          <e-column
-            field='month'
-            header-text='Month'
-            :allow-editing='false'
-            text-align='Left'
-          ></e-column>
-          <e-column
-            field='totalRevenue'
-            header-text='Total revenue'
-            text-align='Center'
-            :allow-editing='false'
-          ></e-column>
-          <e-column
-            field='totalCost'
-            header-text='Total cost'
-            text-align='Center'
-            :allow-editing='false'
-          ></e-column>
-          <e-column
-            header-text='Actions'
-            width='240'
-            text-align='Center'
-            :commands='settings.commands'
-          ></e-column>
-        </e-columns>
-      </ejs-grid>
-    </section>
-    <section v-if='showAppointmentBreakDown' class='mt-8 bg-indigo-500'>
-      <p class="font-bold pl-3 py-3 text-white text-xl">Appointments breakdown</p>
-      <ejs-grid
-        ref='appointmentGrid'
-        :data-source='appointments'
-        :allow-paging='true'
-        :page-settings='settings.pageSettings'
-        :edit-settings='settings.editSettings'
-        :allow-sorting='true'
-        :command-click='onAppointmentCommandClicked'
-      >
-        <e-columns>
-          <e-column
-            field='appointmentId'
-            header-text='Appointment Id'
-            :allow-editing='false'
-            text-align='Left'
-          ></e-column>
-          <e-column
-            field='date'
-            header-text='Date'
-            :allow-editing='false'
-            text-align='Left'
-          ></e-column>
-          <e-column
-            field='practitionerId'
-            header-text='Practitioner Id'
-            :allow-editing='false'
-            text-align='Left'
-          ></e-column>
-          <e-column
-            field='practitionerName'
-            header-text='Practitioner Name'
-            :allow-editing='false'
-            text-align='Left'
-          ></e-column>
-          <e-column
-            field='cost'
-            header-text='Cost'
-            text-align='Center'
-            :allow-editing='false'
-          ></e-column>
-          <e-column
-            field='revenue'
-            header-text='Revenue'
-            text-align='Center'
-            :allow-editing='false'
-          ></e-column>
-          <e-column
-            field='profit'
-            header-text='Profit'
-            text-align='Center'
-            :allow-editing='false'
-          ></e-column>
-          <e-column
-            header-text='Actions'
-            width='240'
-            text-align='Center'
-            :commands='settings.appointmentCommands'
-          ></e-column>
-        </e-columns>
-      </ejs-grid>
-    </section>
+    <div class="flex">
+      <div class="w-3/4">
+        <section>
+          <ejs-grid
+            ref='reportsGrid'
+            :data-source='reports'
+            :allow-paging='true'
+            :page-settings='settings.pageSettings'
+            :edit-settings='settings.editSettings'
+            :allow-sorting='true'
+            :command-click='onCommandClicked'
+          >
+            <e-columns>
+              <e-column
+                field='practitionerId'
+                header-text='Practitioner Id'
+                :allow-editing='false'
+                text-align='Left'
+              ></e-column>
+              <e-column
+                field='month'
+                header-text='Month'
+                :allow-editing='false'
+                text-align='Left'
+              ></e-column>
+              <e-column
+                field='totalRevenue'
+                header-text='Total revenue'
+                text-align='Center'
+                :allow-editing='false'
+              ></e-column>
+              <e-column
+                field='totalCost'
+                header-text='Total cost'
+                text-align='Center'
+                :allow-editing='false'
+              ></e-column>
+              <e-column
+                header-text='Actions'
+                width='240'
+                text-align='Center'
+                :commands='settings.commands'
+              ></e-column>
+            </e-columns>
+          </ejs-grid>
+        </section>
+        <section v-if='showAppointmentBreakDown' class='mt-8 bg-indigo-500'>
+          <p class="font-semi-bold pl-3 py-3 text-white text-xl">Appointments breakdown</p>
+          <ejs-grid
+            ref='appointmentGrid'
+            :data-source='appointments'
+            :allow-paging='true'
+            :page-settings='settings.pageSettings'
+            :edit-settings='settings.editSettings'
+            :allow-sorting='true'
+            :command-click='onAppointmentCommandClicked'
+          >
+            <e-columns>
+              <e-column
+                field='appointmentId'
+                header-text='Appointment Id'
+                :allow-editing='false'
+                text-align='Left'
+              ></e-column>
+              <e-column
+                field='date'
+                header-text='Date'
+                :allow-editing='false'
+                text-align='Left'
+              ></e-column>
+              <e-column
+                field='practitionerId'
+                header-text='Practitioner Id'
+                :allow-editing='false'
+                text-align='Left'
+              ></e-column>
+              <e-column
+                field='practitionerName'
+                header-text='Practitioner Name'
+                :allow-editing='false'
+                text-align='Left'
+              ></e-column>
+              <e-column
+                field='cost'
+                header-text='Cost'
+                text-align='Center'
+                :allow-editing='false'
+              ></e-column>
+              <e-column
+                field='revenue'
+                header-text='Revenue'
+                text-align='Center'
+                :allow-editing='false'
+              ></e-column>
+              <e-column
+                field='profit'
+                header-text='Profit'
+                text-align='Center'
+                :allow-editing='false'
+              ></e-column>
+              <e-column
+                header-text='Actions'
+                width='240'
+                text-align='Center'
+                :commands='settings.appointmentCommands'
+              ></e-column>
+            </e-columns>
+          </ejs-grid>
+        </section>
+      </div>
+      <div class="w-1/4">
+        <appointment-detail :appointment="appointmentDetail"></appointment-detail>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -141,6 +149,7 @@ import {
 } from '@syncfusion/ej2-vue-grids';
 import {MultiSelect, CheckBoxSelection} from "@syncfusion/ej2-vue-dropdowns";
 import {cloneDeep} from 'lodash-es'
+
 MultiSelect.Inject(CheckBoxSelection);
 
 export default {
@@ -150,7 +159,7 @@ export default {
   },
   data() {
     return {
-      fields: { text: 'name', value: 'id' },
+      fields: {text: 'name', value: 'id'},
       showAppointmentBreakDown: false,
       selectedReport: {
         month: '',
@@ -158,14 +167,15 @@ export default {
       },
       filter: {
         practitioners: [],
-        dateRange: [new Date("01/01/2017 12:00 AM"),new Date("01/01/2019 12:00 AM")],
+        dateRange: [new Date("01/01/2017 12:00 AM"), new Date("01/01/2019 12:00 AM")],
       },
       dateRangeConfig: {
         startDate: new Date("01/01/2017 12:00 AM"),
         endDate: new Date("01/01/2019 12:00 AM"),
-        minDate : new Date("01/01/2017 12:00 AM"),
-        maxDate :  new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDay()),
+        minDate: new Date("01/01/2017 12:00 AM"),
+        maxDate: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDay()),
       },
+      appointmentDetail: {},
       settings: {
         gridSettings: {
           scrollSettings: {width: 886, height: 300},
@@ -196,7 +206,7 @@ export default {
             }
           }
         ],
-        
+
         pageSettings: {pageSize: 10}
       }
     };
@@ -235,8 +245,7 @@ export default {
       const type = args.commandColumn.type;
       if (type === 'view-appointment') {
         const appointment = args.rowData;
-        console.log(appointment);
-       
+        this.getDetails(appointment);
       }
     },
     onFiltersApplied() {
@@ -250,6 +259,12 @@ export default {
     },
     getReports() {
       this.$store.dispatch('appointments/getReports', this.filter);
+    },
+    async getDetails(appointment) {
+      const response = await this.$axios.$get(`appointments/${appointment.appointmentId}`, {});
+      if (response.success) {
+        this.appointmentDetail = response.data;
+      }
     },
     toggleBreakdownUI() {
       this.showAppointmentBreakDown =

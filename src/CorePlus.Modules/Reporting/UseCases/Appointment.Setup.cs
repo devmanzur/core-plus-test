@@ -4,13 +4,13 @@ using Nest;
 
 namespace CorePlus.Modules.Reporting.UseCases;
 
-public partial class AppointmentReportRepository
+public partial class AppointmentReportService
 {
     private readonly ElasticClient _elasticClient;
     private readonly IUnitOfWork _unitOfWork;
     private const string defaultIndex = "appointments*";
 
-    public AppointmentReportRepository(ElasticClient elasticClient,IUnitOfWork unitOfWork)
+    public AppointmentReportService(ElasticClient elasticClient,IUnitOfWork unitOfWork)
     {
         _elasticClient = elasticClient;
         _unitOfWork = unitOfWork;

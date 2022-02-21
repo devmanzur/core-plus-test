@@ -15,12 +15,12 @@ public partial class AppointmentService
             {
                 Id = x.UniqueId,
                 Cost = x.Cost,
-                Date = x.Date,
+                Date = x.Date.ToString("g"),
                 Duration = x.Duration,
                 Revenue = x.Revenue,
                 AppointmentType = x.AppointmentType,
                 ClientName = x.ClientName,
-                PractitionerId = x.Practitioner.UniqueId,
+                PractitionerId = x.Practitioner.Id,
                 PractitionerName = x.Practitioner.Name
             }).FirstOrDefaultAsync(x=>x.Id == appointmentId);
 

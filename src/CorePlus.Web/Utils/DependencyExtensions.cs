@@ -26,7 +26,7 @@ public static class DependencyExtensions
     public static IServiceCollection AddReportModule(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddElasticSearchClient(configuration);
-        services.AddScoped<IAppointmentReportRepository, AppointmentReportRepository>();
+        services.AddScoped<IAppointmentReportService, AppointmentReportService>();
         return services;
     }
 

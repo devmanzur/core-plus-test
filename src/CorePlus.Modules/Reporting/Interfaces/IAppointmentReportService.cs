@@ -2,7 +2,7 @@
 
 namespace CorePlus.Modules.Reporting.Interfaces;
 
-public interface IAppointmentReportRepository
+public interface IAppointmentReportService
 {
     Task CreateReportAsync(AppointmentRecord appointment);
 
