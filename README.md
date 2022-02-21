@@ -1,4 +1,4 @@
-# core-plus-test
+# Core plus (Reporting)
 
 Initial requirement breakdown:
 In a real-world situation, this setup and decisions would heavily rely on what is the current setup our application is using. If we're already using something else for other reports it may not be wise to introduce a separate database for just this one. We would usually reuse an existing data store instead of introducing a new one unless the benefits are pretty big.
