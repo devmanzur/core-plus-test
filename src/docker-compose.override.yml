@@ -40,6 +40,8 @@ services:
       - ASPNETCORE_ENVIRONMENT=Production
       - "ConnectionStrings:CorePlusDb=Server=sqldb;Initial Catalog=CorePlusDb;Persist Security Info=False;User Id=sa;Password=Pass@word;"
       - "ElasticConfiguration:Server=http://elasticsearch:9200"
+      - "ElasticConfiguration:UserName="
+      - "ElasticConfiguration:Password="
     depends_on:
       - sqldb
       - elasticsearch
