@@ -23,8 +23,14 @@ So although the difference is not evident in this case since we are speaking of 
 ### Prerequisites
 - Docker or (.NET 6 and MSSQL Server database, Elastic search and npm)
 
+## Running Application with docker on IDE
+- Go to the src directory and run `docker-compose up -d`
+- This will add all required dependencies to you docker container
+- Go to ClientApplication folder inside CorePlus.Web and run npm install
+- You can then run the application using your IDE without changing any settings
+
 ## Running Application on docker
-- Go to the src directory and run `docker-compose up` then, `docker-compose up`
+- Go to the src directory and run `docker-compose build` then, `docker-compose up`
 - The application should be available on http://localhost:8000
 
 ## Running Application in local environment using IDE
