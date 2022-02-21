@@ -12,6 +12,12 @@ COPY . .
 WORKDIR "/src/CorePlus.Web"
 RUN dotnet build "CorePlus.Web.csproj" -c Release -o /app/build
 
+RUN apt-get update && \
+    apt-get install -y wget && \
+    apt-get install -y gnupg2 && \
+    wget -qO- https://deb.nodesource.com/setup_16.x | bash - && \
+    apt-get install -y build-essential nodejs
+
 FROM build AS publish
 RUN dotnet publish "CorePlus.Web.csproj" -c Release -o /app/publish
 
