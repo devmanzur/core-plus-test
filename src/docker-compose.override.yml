@@ -11,6 +11,18 @@ services:
       - "5433:1433"
     volumes:
       - sqlserver_data:/var/opt/mssql
+  
+  elasticsearch:
+    container_name: elasticsearch
+    environment:
+      - xpack.monitoring.enabled=true
+      - xpack.watcher.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - discovery.type=single-node
+    ports:
+      - "9200:9200"
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
 
   portainer:
     container_name: portainer
@@ -30,18 +42,7 @@ services:
       - "ElasticConfiguration:Server=http://elasticsearch:9200"
     depends_on:
       - sqldb
+      - elasticsearch
     ports:
       - "8000:80"
-        
-  elasticsearch:
-    container_name: elasticsearch
-    environment:
-      - xpack.monitoring.enabled=true
-      - xpack.watcher.enabled=false
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      - discovery.type=single-node
-    ports:
-      - "9200:9200"
-    volumes:
-      - elasticsearch-data:/usr/share/elasticsearch/data
         
