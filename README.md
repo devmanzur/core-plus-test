@@ -14,3 +14,22 @@ So I will be using a similar setup for this as well where we would have a relati
 Final notes:
 After completing the application and comparing the results between Elastic search and SQL queries on the same dataset, the performance improvement is not enough to add Elastic search just for this report SQL performs well because there are not many joins for this report either. However, as per my previous experience, Elastic search bucket metrics provide superior performance over SQL even on Multilevel Nested objects with millions of records.
 So although the difference is not evident in this case since we are speaking of Scalability our data will grow over time and Elastic search would be a good solution for all kinds of reporting, hence I have decided to stick with Elastic search for reporting.
+
+## Built With
+- C#, JavaScript
+- .NET 6, VueJs, NUXTJS, and Tailwind CSS
+
+
+### Prerequisites
+- Docker or (.NET 6 and MSSQL Server database, Elastic search and npm)
+
+## Running Application on docker
+- Go to the src directory and run `docker-compose up`
+- The application should be available on http://localhost:8000
+
+## Running Application in local environment using IDE
+- Go to ClientApplication folder inside CorePlus.Web and run npm install
+- Replace the CorePlusDb connection string with your own connection string for MSSQL database Or, You can use the current setting if you have sql server on docker locally
+- Replace the ElasticConfiguration with your own Or, You can use the current setting if you have elastic search on docker locally
+- Run the application
+
