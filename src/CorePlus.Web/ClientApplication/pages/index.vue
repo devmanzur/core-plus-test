@@ -133,7 +133,7 @@
         </section>
       </div>
       <div class="w-1/4">
-        <appointment-detail :appointment="appointmentDetail"></appointment-detail>
+        <appointment-detail v-if="appointmentDetail" :appointment="appointmentDetail"></appointment-detail>
       </div>
     </div>
   </div>
@@ -175,7 +175,7 @@ export default {
         minDate: new Date("01/01/2017 12:00 AM"),
         maxDate: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDay()),
       },
-      appointmentDetail: {},
+      appointmentDetail: null,
       settings: {
         gridSettings: {
           scrollSettings: {width: 886, height: 300},
